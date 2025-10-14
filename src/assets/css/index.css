@@ -1,0 +1,15 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.footer {
+  background-color: rgb(34, 255, 0);
+  flex: 0 0 20vh; /* Footer occupa il 20% dell'altezza */
+}
