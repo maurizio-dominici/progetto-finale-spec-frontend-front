@@ -16,7 +16,6 @@ export function GlobalProvider({ children }) {
       .then((data) => {
         setProducts(data);
         setLoading(false);
-        console.log(products);
       })
       .catch((err) => {
         console.error("Fetch error:", err);

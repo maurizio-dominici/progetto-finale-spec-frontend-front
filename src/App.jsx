@@ -8,6 +8,7 @@ import FlySection from "./components/homepage-components/FlySection";
 import TransportSection from "./components/homepage-components/TransportSection";
 import { GlobalProvider } from "./context/GlobalContext";
 import AllProductsPage from "./pages/AllProductsPage";
+import DeatailPages from "./pages/DetailPages";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/about-us" element={<AboutUs />} />
             {/* Rotte per navigazione  */}
             <Route path="/all-products" element={<AllProductsPage />} />
+            <Route path="/products/:id" element={<DeatailPages />} />
             <Route path="/hotels" element={<HotelSection />} />
             <Route path="/tours" element={<TourSection />} />
             <Route path="/flys" element={<FlySection />} />
