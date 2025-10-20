@@ -1,14 +1,16 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useMemo } from "react";
 const { VITE_BASE_URL } = import.meta.env;
 
 export const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
   const [allProducts, setAllProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [filterByName, setFilterByName] = useState("");
+  const [filterByCategory, setFilterByCategory] = useState("");
+  const [sortOrder, setSortOrder] = useState(""); // '' | 'asc' | 'desc'
 
   useEffect(() => {
     fetch(`${VITE_BASE_URL}/products`)
@@ -18,7 +20,6 @@ export function GlobalProvider({ children }) {
       })
       .then((data) => {
         setAllProducts(data);
-        setFilteredProducts(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -28,30 +29,53 @@ export function GlobalProvider({ children }) {
       });
   }, []);
 
-  useEffect(() => {
-    if (!filterByName.trim()) {
-      setFilteredProducts(allProducts);
-    } else {
-      setFilteredProducts(
-        allProducts.filter((p) =>
-          p.title.toLowerCase().includes(filterByName.toLowerCase())
-        )
+  // Filtraggio e ordinamento memoizzati
+  const filteredProducts = useMemo(() => {
+    let filtered = allProducts;
+
+    if (filterByName.trim()) {
+      filtered = filtered.filter((p) =>
+        p.title.toLowerCase().includes(filterByName.toLowerCase())
       );
     }
-  }, [filterByName, allProducts]);
 
-  const previewProducts = filteredProducts.slice(0, 9);
+    if (filterByCategory) {
+      filtered = filtered.filter((p) => p.category === filterByCategory);
+    }
+
+    if (sortOrder === "asc") {
+      filtered = filtered
+        .slice()
+        .sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortOrder === "desc") {
+      filtered = filtered
+        .slice()
+        .sort((a, b) => b.title.localeCompare(a.title));
+    }
+
+    return filtered;
+  }, [allProducts, filterByName, filterByCategory, sortOrder]);
+
+  // Anteprima dei primi 9 prodotti
+  const previewProducts = useMemo(
+    () => filteredProducts.slice(0, 9),
+    [filteredProducts]
+  );
 
   return (
     <GlobalContext.Provider
       value={{
-        allProducts, // lista completa
-        filteredProducts, // solo prodotti filtrati
-        previewProducts, // anteprima dinamica dei filtrati
+        allProducts,
+        filteredProducts,
+        previewProducts,
         loading,
         error,
         filterByName,
         setFilterByName,
+        filterByCategory,
+        setFilterByCategory,
+        sortOrder,
+        setSortOrder,
       }}
     >
       {children}

@@ -1,16 +1,11 @@
-import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { GlobalContext } from "../context/GlobalContext";
 
 export default function Navbar() {
-  const { filterByName, setFilterByName } = useContext(GlobalContext);
-  console.log(filterByName);
-
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
-          Web Travel <i class="bi bi-boxes"></i>
+          Web Travel<i className="bi bi-boxes"></i>
         </Link>
         <button
           className="navbar-toggler"
@@ -97,18 +92,7 @@ export default function Navbar() {
               </NavLink>
             </li>
           </ul>
-          <form className="d-flex" onSubmit={(e) => e.preventDefault()}>
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Cerca prodotto..."
-              value={filterByName}
-              onChange={(e) => setFilterByName(e.target.value)}
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          {/* Form di ricerca rimosso */}
         </div>
       </div>
     </nav>
