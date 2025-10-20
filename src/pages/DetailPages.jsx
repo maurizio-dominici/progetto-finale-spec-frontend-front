@@ -5,7 +5,7 @@ const { VITE_BASE_URL } = import.meta.env;
 
 export default function DetailPages() {
   const { id } = useParams();
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState(null);
 
   useEffect(() => {
     if (!id) return;
@@ -15,14 +15,18 @@ export default function DetailPages() {
         return res.json();
       })
       .then((data) => setProduct(data.product))
-
       .catch((err) => console.error("Fetch error:", err));
   }, [id]);
 
   if (!product) return <div>Loading...</div>;
 
+  // Scegli uno stile di sfondo fra tre, basato su product.id modulo 3
+  const bgClass = ["bg-style-1", "bg-style-2", "bg-style-3"][product.id % 3];
+
   return (
-    <div className="container my-4 p-4 bg-white rounded shadow-sm">
+    <div
+      className={`container my-4 p-4 rounded shadow-sm ${bgClass} text-dark`}
+    >
       <h1 className="mb-3">{product.title}</h1>
 
       {/* Immagine principale */}
@@ -35,7 +39,7 @@ export default function DetailPages() {
         />
       ) : (
         <div
-          className="bg-secondary text-white d-flex align-items-center justify-content-center"
+          className="bg-secondary text-white d-flex align-items-center justify-content-center rounded mb-4"
           style={{ height: 400 }}
         >
           <span>Nessuna immagine disponibile</span>

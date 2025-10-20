@@ -1,12 +1,16 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { GlobalContext } from "../context/GlobalContext";
 
 export default function Navbar() {
+  const { filterByName, setFilterByName } = useContext(GlobalContext);
+  console.log(filterByName);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
-          {/* Puoi inserire un'immagine qui, es: <img src="logo.png" alt="Logo" /> */}
-          Logo
+          Web Travel <i class="bi bi-boxes"></i>
         </Link>
         <button
           className="navbar-toggler"
@@ -29,7 +33,7 @@ export default function Navbar() {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                Home
+                <i className="bi bi-house-door-fill"></i>
               </NavLink>
             </li>
             <li className="nav-item">
@@ -79,7 +83,7 @@ export default function Navbar() {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                Flys
+                <i className="bi bi-airplane"></i>
               </NavLink>
             </li>
             <li className="nav-item">
@@ -89,20 +93,17 @@ export default function Navbar() {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                Transport
+                <i className="bi bi-train-freight-front"></i>
               </NavLink>
             </li>
           </ul>
-          <form
-            className="d-flex"
-            role="search"
-            onSubmit={(e) => e.preventDefault()}
-          >
+          <form className="d-flex" onSubmit={(e) => e.preventDefault()}>
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Cerca prodotto..."
+              value={filterByName}
+              onChange={(e) => setFilterByName(e.target.value)}
             />
             <button className="btn btn-outline-success" type="submit">
               Search

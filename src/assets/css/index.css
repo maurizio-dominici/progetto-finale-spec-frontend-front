@@ -1,15 +1,50 @@
+body {
+  height: 100%;
+  margin: 0;
+}
+
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .main-content {
-  flex: 1 1 auto;
-  overflow-y: auto;
+  flex: 1 0 auto; /* occupa lo spazio rimanente */
 }
 
 .footer {
   background-color: rgb(34, 255, 0);
-  flex: 0 0 20vh; /* Footer occupa il 20% dell'altezza */
+  height: 100px; /* oppure quanto vuoi */
+  flex-shrink: 0; /* non si riduce */
+}
+
+/* background color alternati per le card */
+.bg-style-1 {
+  background: #22c1c3;
+  background: linear-gradient(
+    189deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(253, 187, 45, 1) 100%
+  );
+}
+
+.bg-style-2 {
+  background: #833ab4;
+  background: linear-gradient(
+    315deg,
+    rgba(131, 58, 180, 1) 9%,
+    rgba(29, 178, 253, 1) 37%,
+    rgba(252, 176, 69, 1) 100%
+  );
+}
+
+.bg-style-3 {
+  background: #020024;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
 }
