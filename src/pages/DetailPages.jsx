@@ -1,15 +1,18 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
-import CompareModal from "../components/CompareModal";
 
 const { VITE_BASE_URL } = import.meta.env;
 
 export default function DetailPages() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const { selectedForCompare, setSelectedForCompare } =
-    useContext(GlobalContext);
+  const {
+    selectedForCompare,
+    setSelectedForCompare,
+    favorites,
+    toggleFavorite,
+  } = useContext(GlobalContext);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   useEffect(() => {
@@ -23,7 +26,22 @@ export default function DetailPages() {
       .catch((err) => console.error("Errore di fetch:", err));
   }, [id]);
 
+  const renderRatingStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.round(rating);
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push(<i key={i} className="bi bi-star-fill text-warning"></i>);
+      } else {
+        stars.push(<i key={i} className="bi bi-star"></i>);
+      }
+    }
+    return stars;
+  };
+
   if (!product) return <div>Caricamento in corso...</div>;
+
+  const isFavorite = favorites.some((p) => p.id === product.id);
 
   const toggleCompare = () => {
     const isAlreadySelected = selectedForCompare.some(
@@ -43,9 +61,30 @@ export default function DetailPages() {
       className="container my-5 p-4 bg-light rounded shadow-sm"
       style={{ maxWidth: 900 }}
     >
-      <h1 className="mb-4 text-center">{product.title}</h1>
+      <div className="d-flex align-items-center justify-content-center mb-3">
+        <h1 className="me-3">{product.title}</h1>
 
-      {/* Pulsanti Confronta + Visualizza Confronto */}
+        {/* Cuore preferiti */}
+        <button
+          onClick={() => toggleFavorite(product)}
+          className="btn p-0"
+          style={{ background: "none", border: "none", cursor: "pointer" }}
+          aria-label={
+            isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"
+          }
+        >
+          {isFavorite ? (
+            <i
+              className="bi bi-heart-fill text-danger"
+              style={{ fontSize: "1.8rem" }}
+            ></i>
+          ) : (
+            <i className="bi bi-heart" style={{ fontSize: "1.8rem" }}></i>
+          )}
+        </button>
+      </div>
+
+      {/* Pulsanti confronto */}
       <div className="d-flex justify-content-center gap-3 mb-4">
         <button
           onClick={toggleCompare}
@@ -56,14 +95,14 @@ export default function DetailPages() {
 
         <button
           className="btn btn-outline-secondary"
-          onClick={() => setIsCompareOpen(true)}
           disabled={selectedForCompare.length < 2}
+          onClick={() => setIsCompareOpen(true)}
         >
           Visualizza confronto ({selectedForCompare.length})
         </button>
       </div>
 
-      {/* Sezione dettagli prodotto */}
+      {/* Descrizione e dettagli */}
       <div>
         <h4>Descrizione</h4>
         <p>{product.description || "Nessuna descrizione disponibile."}</p>
@@ -92,24 +131,20 @@ export default function DetailPages() {
               <strong>Trasporto:</strong> {product.transportation}
             </li>
           )}
-          {product.rating !== undefined && (
-            <li>
-              <strong>Valutazione:</strong> {product.rating}/5
-            </li>
-          )}
+          <li>
+            <strong>Valutazione:</strong>
+            {product.rating !== undefined ? (
+              <>{renderRatingStars(product.rating)}</>
+            ) : (
+              <span>Nessuna valutazione</span>
+            )}
+          </li>
         </ul>
       </div>
 
-      {/* Pulsante prenotazione */}
       <div className="text-center mt-4">
         <button className="btn btn-success btn-lg shadow">Prenota ora</button>
       </div>
-
-      {/* Modale per il confronto */}
-      <CompareModal
-        isOpen={isCompareOpen}
-        onClose={() => setIsCompareOpen(false)}
-      />
     </div>
   );
 }

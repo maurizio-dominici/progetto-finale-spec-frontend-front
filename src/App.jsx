@@ -11,6 +11,7 @@ import AllProductsPage from "./pages/AllProductsPage";
 import DetailPages from "./pages/DetailPages"; // correggi import DetailPages
 import CompareModal from "./components/CompareModal";
 import { useContext } from "react";
+import FavoritePage from "./pages/FavoritesPage";
 
 function AppContent() {
   const { isCompareModalOpen, setIsCompareModalOpen } =
@@ -31,6 +32,7 @@ function AppContent() {
             <Route path="/tours" element={<TourSection />} />
             <Route path="/flys" element={<FlySection />} />
             <Route path="/transport" element={<TransportSection />} />
+            <Route path="/favorites" element={<FavoritePage />} />
           </Route>
         </Routes>
         <CompareModal

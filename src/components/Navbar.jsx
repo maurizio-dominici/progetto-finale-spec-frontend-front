@@ -4,8 +4,12 @@ import { GlobalContext } from "../context/GlobalContext";
 import "../assets/css/index.css";
 
 export default function Navbar() {
-  const { selectedForCompare, isCompareModalOpen, setIsCompareModalOpen } =
-    useContext(GlobalContext);
+  const {
+    selectedForCompare,
+    isCompareModalOpen,
+    setIsCompareModalOpen,
+    favorites,
+  } = useContext(GlobalContext);
 
   const handleCompareClick = () => {
     if (selectedForCompare.length >= 2) {
@@ -40,9 +44,10 @@ export default function Navbar() {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                <i className="bi bi-house-door-fill"></i>
+                Home
               </NavLink>
             </li>
+
             <li className="nav-item">
               <NavLink
                 to="/all-products"
@@ -53,16 +58,7 @@ export default function Navbar() {
                 Tutti i prodotti
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink
-                to="/about-us"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                About Us
-              </NavLink>
-            </li>
+
             <li className="nav-item">
               <NavLink
                 to="/hotels"
@@ -73,6 +69,7 @@ export default function Navbar() {
                 Hotel
               </NavLink>
             </li>
+
             <li className="nav-item">
               <NavLink
                 to="/tours"
@@ -83,6 +80,7 @@ export default function Navbar() {
                 Tour
               </NavLink>
             </li>
+
             <li className="nav-item">
               <NavLink
                 to="/flys"
@@ -93,6 +91,7 @@ export default function Navbar() {
                 Voli
               </NavLink>
             </li>
+
             <li className="nav-item">
               <NavLink
                 to="/transport"
@@ -103,8 +102,38 @@ export default function Navbar() {
                 Trasporti
               </NavLink>
             </li>
-          </ul>
 
+            <li className="nav-item">
+              <NavLink
+                to="/about-us"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                About Us
+              </NavLink>
+            </li>
+
+            <li className="nav-item position-relative">
+              <NavLink
+                to="/favorites"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Preferiti
+                {favorites.length > 0 && (
+                  <span
+                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    style={{ fontSize: "0.65rem" }}
+                  >
+                    {favorites.length}
+                    <span className="visually-hidden">elementi preferiti</span>
+                  </span>
+                )}
+              </NavLink>
+            </li>
+          </ul>
           {/* Link testuale Confronta */}
           <span
             role="button"

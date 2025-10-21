@@ -18,6 +18,12 @@ export function GlobalProvider({ children }) {
   // Stato per apertura modale confronto
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
 
+  const [favorites, setFavorites] = useState(() => {
+    // Carica preferiti da localStorage o array vuoto
+    const saved = localStorage.getItem("favorites");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   useEffect(() => {
     fetch(`${VITE_BASE_URL}/products`)
       .then((res) => {
@@ -65,6 +71,21 @@ export function GlobalProvider({ children }) {
     [filteredProducts]
   );
 
+  // Funzione per aggiungere/rimuovere preferito
+  const toggleFavorite = (product) => {
+    setFavorites((prev) => {
+      const exists = prev.find((p) => p.id === product.id);
+      let updated;
+      if (exists) {
+        updated = prev.filter((p) => p.id !== product.id);
+      } else {
+        updated = [...prev, product];
+      }
+      localStorage.setItem("favorites", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -83,6 +104,8 @@ export function GlobalProvider({ children }) {
         setSelectedForCompare,
         isCompareModalOpen,
         setIsCompareModalOpen,
+        favorites,
+        toggleFavorite,
       }}
     >
       {children}
