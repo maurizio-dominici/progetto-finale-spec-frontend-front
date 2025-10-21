@@ -31,6 +31,12 @@ export default function ProductFilterNoCategory() {
     setSortOrder(sortOrder === order ? "" : order);
   };
 
+  const resetFilters = () => {
+    setFilterByName("");
+    setSortOrder("");
+    setLocalSearch(""); // reset locale
+  };
+
   return (
     <div className="dropdown mb-4">
       <button
@@ -78,6 +84,13 @@ export default function ProductFilterNoCategory() {
             Z → A
           </button>
         </div>
+
+        <button
+          className="btn btn-outline-danger mt-3 w-100"
+          onClick={resetFilters}
+        >
+          Reset filtri
+        </button>
       </div>
     </div>
   );

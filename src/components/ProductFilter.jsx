@@ -50,6 +50,13 @@ export default function ProductFilter() {
     );
   }, [allProducts]);
 
+  const resetFilters = () => {
+    setFilterByName("");
+    setLocalSearch("");
+    setFilterByCategory("");
+    setSortOrder("");
+  };
+
   return (
     <div className="dropdown mb-4">
       <button
@@ -114,6 +121,13 @@ export default function ProductFilter() {
             Z → A
           </button>
         </div>
+
+        <button
+          className="btn btn-outline-danger mt-3 w-100"
+          onClick={resetFilters}
+        >
+          Reset filtri
+        </button>
       </div>
     </div>
   );

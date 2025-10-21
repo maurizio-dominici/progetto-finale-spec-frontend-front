@@ -90,7 +90,7 @@ export default function DetailPages() {
           onClick={toggleCompare}
           className={`btn ${isSelected ? "btn-danger" : "btn-primary"}`}
         >
-          {isSelected ? "Rimuovi dal confronto" : "Aggiungi al confronto"}
+          {isSelected ? "Rimuovi dal confronto" : "Confronta"}
         </button>
 
         <button
@@ -142,9 +142,9 @@ export default function DetailPages() {
         </ul>
       </div>
 
-      <div className="text-center mt-4">
+      {/* <div className="text-center mt-4">
         <button className="btn btn-success btn-lg shadow">Prenota ora</button>
-      </div>
+      </div> */}
     </div>
   );
 }

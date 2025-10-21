@@ -18,7 +18,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
           Web Travel
@@ -148,7 +148,16 @@ export default function Navbar() {
                 : "Visualizza prodotti confrontati"
             }
           >
-            Confronta ({selectedForCompare.length})
+            Confronta
+            {/* Badge con numero */}
+            {selectedForCompare.length > 0 && (
+              <span
+                className="ms-2 badge bg-danger"
+                style={{ fontSize: "0.75em" }}
+              >
+                {selectedForCompare.length}
+              </span>
+            )}
           </span>
         </div>
       </div>
