@@ -1,11 +1,23 @@
 import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
+import "../assets/css/index.css";
 
 export default function Navbar() {
+  const { selectedForCompare, isCompareModalOpen, setIsCompareModalOpen } =
+    useContext(GlobalContext);
+
+  const handleCompareClick = () => {
+    if (selectedForCompare.length >= 2) {
+      setIsCompareModalOpen(true);
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
-          Web Travel<i className="bi bi-boxes"></i>
+          Web Travel
         </Link>
         <button
           className="navbar-toggler"
@@ -78,7 +90,7 @@ export default function Navbar() {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                <i className="bi bi-airplane"></i>
+                Voli
               </NavLink>
             </li>
             <li className="nav-item">
@@ -88,11 +100,27 @@ export default function Navbar() {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                <i className="bi bi-train-freight-front"></i>
+                Trasporti
               </NavLink>
             </li>
           </ul>
-          {/* Form di ricerca rimosso */}
+
+          {/* Link testuale Confronta */}
+          <span
+            role="button"
+            tabIndex={0}
+            onClick={handleCompareClick}
+            className={`nav-link compare-link ${
+              selectedForCompare.length < 2 ? "disabled" : ""
+            }`}
+            title={
+              selectedForCompare.length < 2
+                ? "Seleziona almeno 2 prodotti per confrontare"
+                : "Visualizza prodotti confrontati"
+            }
+          >
+            Confronta ({selectedForCompare.length})
+          </span>
         </div>
       </div>
     </nav>

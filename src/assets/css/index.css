@@ -48,3 +48,30 @@ body {
     rgba(0, 212, 255, 1) 100%
   );
 }
+
+/* Stile base come gli altri nav-link */
+.compare-link {
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  color: var(--bs-link-color);
+  text-decoration: none;
+  user-select: none;
+  margin-left: 1rem;
+}
+
+/* Hover e focus simili agli altri nav-link */
+.compare-link:hover,
+.compare-link:focus {
+  color: var(--bs-link-hover-color);
+  /* text-decoration: underline; */
+  outline: none;
+}
+
+/* Stato disabilitato (non cliccabile e grigio) */
+.compare-link.disabled {
+  cursor: not-allowed;
+  color: var(--bs-secondary-color);
+  text-decoration: none;
+  pointer-events: none; /* disabilita interazioni mouse */
+}

@@ -1,129 +1,115 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
+import CompareModal from "../components/CompareModal";
 
 const { VITE_BASE_URL } = import.meta.env;
 
 export default function DetailPages() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const { selectedForCompare, setSelectedForCompare } =
+    useContext(GlobalContext);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
     fetch(`${VITE_BASE_URL}/products/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Fetch failed");
+        if (!res.ok) throw new Error("Fetch fallita");
         return res.json();
       })
       .then((data) => setProduct(data.product))
-      .catch((err) => console.error("Fetch error:", err));
+      .catch((err) => console.error("Errore di fetch:", err));
   }, [id]);
 
-  if (!product) return <div>Loading...</div>;
+  if (!product) return <div>Caricamento in corso...</div>;
 
-  // Scegli uno stile di sfondo fra tre, basato su product.id modulo 3
-  const bgClass = ["bg-style-1", "bg-style-2", "bg-style-3"][product.id % 3];
+  const toggleCompare = () => {
+    const isAlreadySelected = selectedForCompare.some(
+      (p) => p.id === product.id
+    );
+    if (isAlreadySelected) {
+      setSelectedForCompare((prev) => prev.filter((p) => p.id !== product.id));
+    } else {
+      setSelectedForCompare((prev) => [...prev, product]);
+    }
+  };
+
+  const isSelected = selectedForCompare.some((p) => p.id === product.id);
 
   return (
     <div
-      className={`container my-4 p-4 rounded shadow-sm ${bgClass} text-dark`}
+      className="container my-5 p-4 bg-light rounded shadow-sm"
+      style={{ maxWidth: 900 }}
     >
-      <h1 className="mb-3">{product.title}</h1>
+      <h1 className="mb-4 text-center">{product.title}</h1>
 
-      {/* Immagine principale */}
-      {product.images && product.images.length > 0 ? (
-        <img
-          src={product.images[0]}
-          alt={product.title}
-          className="img-fluid rounded mb-4 shadow"
-          style={{ maxHeight: "400px", objectFit: "cover", width: "100%" }}
-        />
-      ) : (
-        <div
-          className="bg-secondary text-white d-flex align-items-center justify-content-center rounded mb-4"
-          style={{ height: 400 }}
+      {/* Pulsanti Confronta + Visualizza Confronto */}
+      <div className="d-flex justify-content-center gap-3 mb-4">
+        <button
+          onClick={toggleCompare}
+          className={`btn ${isSelected ? "btn-danger" : "btn-primary"}`}
         >
-          <span>Nessuna immagine disponibile</span>
-        </div>
-      )}
+          {isSelected ? "Rimuovi dal confronto" : "Aggiungi al confronto"}
+        </button>
 
-      {/* Descrizione e dettagli principali */}
-      <div className="row mb-4">
-        <div className="col-md-8">
-          <h4>Descrizione</h4>
-          <p>{product.description}</p>
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => setIsCompareOpen(true)}
+          disabled={selectedForCompare.length < 2}
+        >
+          Visualizza confronto ({selectedForCompare.length})
+        </button>
+      </div>
 
-          <h5>Dettagli</h5>
-          <ul className="list-unstyled">
+      {/* Sezione dettagli prodotto */}
+      <div>
+        <h4>Descrizione</h4>
+        <p>{product.description || "Nessuna descrizione disponibile."}</p>
+
+        <h5>Dettagli</h5>
+        <ul>
+          <li>
+            <strong>Categoria:</strong> {product.category}
+          </li>
+          <li>
+            <strong>Prezzo:</strong> €{product.price?.toFixed(2) ?? "N/A"}
+          </li>
+          {product.location && (
             <li>
-              <strong>Categoria:</strong> {product.category}
+              <strong>Location:</strong> {product.location}
             </li>
-            <li>
-              <strong>Prezzo:</strong> €
-              {product.price !== undefined && typeof product.price === "number"
-                ? product.price.toFixed(2)
-                : "N/A"}
-            </li>
-            {product.location && (
-              <li>
-                <strong>Location:</strong> {product.location}
-              </li>
-            )}
-            {product.durationDays !== undefined && (
-              <li>
-                <strong>Durata:</strong> {product.durationDays} giorno
-                {product.durationDays !== 1 ? "i" : ""}
-              </li>
-            )}
-            {product.transportation && (
-              <li>
-                <strong>Tipologia Trasporto:</strong> {product.transportation}
-              </li>
-            )}
-            {product.availableFrom && (
-              <li>
-                <strong>Disponibile da:</strong>{" "}
-                {new Date(product.availableFrom).toLocaleDateString()}
-              </li>
-            )}
-            {product.availableTo && (
-              <li>
-                <strong>Disponibile fino a:</strong>{" "}
-                {new Date(product.availableTo).toLocaleDateString()}
-              </li>
-            )}
-            {product.rating !== undefined && (
-              <li>
-                <strong>Valutazione:</strong> {product.rating} / 5
-              </li>
-            )}
-            {product.cancellationPolicy && (
-              <li>
-                <strong>Politica Cancellazione:</strong>{" "}
-                {product.cancellationPolicy}
-              </li>
-            )}
-          </ul>
-        </div>
-
-        {/* Amenities */}
-        <div className="col-md-4">
-          <h4>Servizi Inclusi</h4>
-          {product.amenities && product.amenities.length > 0 ? (
-            <ul>
-              {product.amenities.map((amenity, index) => (
-                <li key={index}>{amenity}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>Nessun servizio incluso.</p>
           )}
-        </div>
+          {product.durationDays !== undefined && (
+            <li>
+              <strong>Durata:</strong> {product.durationDays} giorno
+              {product.durationDays !== 1 ? "i" : ""}
+            </li>
+          )}
+          {product.transportation && (
+            <li>
+              <strong>Trasporto:</strong> {product.transportation}
+            </li>
+          )}
+          {product.rating !== undefined && (
+            <li>
+              <strong>Valutazione:</strong> {product.rating}/5
+            </li>
+          )}
+        </ul>
       </div>
 
-      {/* Pulsante per prenotare o altri CTA */}
-      <div className="d-flex justify-content-center">
-        <button className="btn btn-success btn-lg shadow">Prenota Ora</button>
+      {/* Pulsante prenotazione */}
+      <div className="text-center mt-4">
+        <button className="btn btn-success btn-lg shadow">Prenota ora</button>
       </div>
+
+      {/* Modale per il confronto */}
+      <CompareModal
+        isOpen={isCompareOpen}
+        onClose={() => setIsCompareOpen(false)}
+      />
     </div>
   );
 }

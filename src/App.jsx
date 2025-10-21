@@ -6,29 +6,46 @@ import HotelSection from "./components/homepage-components/HotelSection";
 import TourSection from "./components/homepage-components/TourSection";
 import FlySection from "./components/homepage-components/FlySection";
 import TransportSection from "./components/homepage-components/TransportSection";
-import { GlobalProvider } from "./context/GlobalContext";
+import { GlobalContext, GlobalProvider } from "./context/GlobalContext";
 import AllProductsPage from "./pages/AllProductsPage";
-import DeatailPages from "./pages/DetailPages";
+import DetailPages from "./pages/DetailPages"; // correggi import DetailPages
+import CompareModal from "./components/CompareModal";
+import { useContext } from "react";
 
-export default function App() {
+function AppContent() {
+  const { isCompareModalOpen, setIsCompareModalOpen } =
+    useContext(GlobalContext);
+
   return (
-    <GlobalProvider>
+    <>
       <BrowserRouter>
         <Routes>
           <Route element={<DefaultLayout />}>
             {/* Rotte base */}
             <Route index element={<Homepage />} />
             <Route path="/about-us" element={<AboutUs />} />
-            {/* Rotte per navigazione  */}
+            {/* Rotte per navigazione */}
             <Route path="/all-products" element={<AllProductsPage />} />
-            <Route path="/products/:id" element={<DeatailPages />} />
+            <Route path="/products/:id" element={<DetailPages />} />
             <Route path="/hotels" element={<HotelSection />} />
             <Route path="/tours" element={<TourSection />} />
             <Route path="/flys" element={<FlySection />} />
             <Route path="/transport" element={<TransportSection />} />
           </Route>
         </Routes>
+        <CompareModal
+          isOpen={isCompareModalOpen}
+          onClose={() => setIsCompareModalOpen(false)}
+        />
       </BrowserRouter>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <GlobalProvider>
+      <AppContent />
     </GlobalProvider>
   );
 }

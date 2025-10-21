@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState, useMemo } from "react";
+
 const { VITE_BASE_URL } = import.meta.env;
 
 export const GlobalContext = createContext();
@@ -12,10 +13,15 @@ export function GlobalProvider({ children }) {
   const [filterByCategory, setFilterByCategory] = useState("");
   const [sortOrder, setSortOrder] = useState(""); // '' | 'asc' | 'desc'
 
+  const [selectedForCompare, setSelectedForCompare] = useState([]);
+
+  // Stato per apertura modale confronto
+  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+
   useEffect(() => {
     fetch(`${VITE_BASE_URL}/products`)
       .then((res) => {
-        if (!res.ok) throw new Error("Network response was not ok");
+        if (!res.ok) throw new Error("Errore di rete");
         return res.json();
       })
       .then((data) => {
@@ -23,13 +29,11 @@ export function GlobalProvider({ children }) {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Fetch error:", err);
         setError(err);
         setLoading(false);
       });
   }, []);
 
-  // Filtraggio e ordinamento memoizzati
   const filteredProducts = useMemo(() => {
     let filtered = allProducts;
 
@@ -56,7 +60,6 @@ export function GlobalProvider({ children }) {
     return filtered;
   }, [allProducts, filterByName, filterByCategory, sortOrder]);
 
-  // Anteprima dei primi 9 prodotti
   const previewProducts = useMemo(
     () => filteredProducts.slice(0, 9),
     [filteredProducts]
@@ -76,6 +79,10 @@ export function GlobalProvider({ children }) {
         setFilterByCategory,
         sortOrder,
         setSortOrder,
+        selectedForCompare,
+        setSelectedForCompare,
+        isCompareModalOpen,
+        setIsCompareModalOpen,
       }}
     >
       {children}
