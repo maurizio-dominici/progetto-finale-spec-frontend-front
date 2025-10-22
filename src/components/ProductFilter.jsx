@@ -1,4 +1,4 @@
-import { useContext, useState, useCallback, useMemo } from "react";
+import { useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 
 export default function ProductFilter() {
@@ -10,10 +10,16 @@ export default function ProductFilter() {
     setFilterByCategory,
     sortOrder,
     setSortOrder,
+    resetFilters,
   } = useContext(GlobalContext);
 
   const [localSearch, setLocalSearch] = useState(filterByName);
   const [isOpen, setIsOpen] = useState(false);
+
+  //  Per sincronizzare il campo ricerca locale (localSearch) ogni volta che cambia (filterByName)
+  useEffect(() => {
+    setLocalSearch(filterByName);
+  }, [filterByName]);
 
   const debounce = useCallback((func, delay) => {
     let timerId;
@@ -49,13 +55,6 @@ export default function ProductFilter() {
       Boolean
     );
   }, [allProducts]);
-
-  const resetFilters = () => {
-    setFilterByName("");
-    setLocalSearch("");
-    setFilterByCategory("");
-    setSortOrder("");
-  };
 
   return (
     <div className="dropdown mb-4">

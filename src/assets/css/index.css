@@ -82,3 +82,95 @@ body {
   text-decoration: none;
   pointer-events: none; /* disabilita interazioni mouse */
 }
+
+/* Preferiti */
+.favorite-container {
+  margin: 2rem 0;
+}
+
+.favorite-title {
+  margin-bottom: 1.5rem;
+}
+
+.favorite-clear-btn {
+  margin-bottom: 1.5rem;
+}
+
+.favorite-card-col {
+  margin-bottom: 1.5rem;
+}
+
+.favorite-card-img {
+  height: 180px;
+  /* Puoi aggiungere bg-style-1 se serve: */
+  background-color: var(--bg-style-1-color, #e9ecef); /* es. colore di sfondo */
+}
+
+.favorite-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.favorite-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.favorite-favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.5rem;
+}
+
+.favorite-favorite-icon {
+  font-size: 1.3rem;
+}
+
+.favorite-card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.favorite-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+}
+
+.btn-detail {
+  margin-left: auto;
+}
+
+/* Reviews */
+
+.reviews-list-container {
+  overflow-x: hidden;
+  white-space: nowrap;
+  padding: 1rem 0;
+  cursor: pointer;
+}
+
+.review-card {
+  display: inline-block;
+  width: 300px;
+  margin-right: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  vertical-align: top;
+  text-align: left;
+}
+
+.review-card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}

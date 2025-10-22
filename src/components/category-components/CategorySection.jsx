@@ -3,18 +3,20 @@ import { GlobalContext } from "../../context/GlobalContext";
 import ProductCard from "../ui/ProductCard";
 import ProductFilterNoCategory from "../ProductFilterNoCategory";
 
-export default function TransportSection() {
-  const { allProducts, filterByName, sortOrder } = useContext(GlobalContext);
+export default function CategorySection({ category, title }) {
+  const { allProducts, filterByName, sortOrder, loading, error } =
+    useContext(GlobalContext);
 
-  const flyProducts = useMemo(() => {
-    return allProducts.filter(
-      (product) => product.category.toLowerCase() === "volo"
-    );
-  }, [allProducts]);
+  const categoryProducts = useMemo(
+    () =>
+      allProducts.filter(
+        (p) => p.category.toLowerCase() === category.toLowerCase()
+      ),
+    [allProducts, category]
+  );
 
-  // Applica filtro testo + ordinamento su prodotti volo
   const filteredProducts = useMemo(() => {
-    let filtered = flyProducts;
+    let filtered = categoryProducts;
 
     if (filterByName.trim()) {
       filtered = filtered.filter((p) =>
@@ -33,13 +35,28 @@ export default function TransportSection() {
     }
 
     return filtered;
-  }, [flyProducts, filterByName, sortOrder]);
+  }, [categoryProducts, filterByName, sortOrder]);
+
+  if (loading) {
+    return (
+      <p aria-live="polite" className="text-center my-5">
+        Caricamento prodotti...
+      </p>
+    );
+  }
+
+  if (error) {
+    return (
+      <p role="alert" className="text-center text-danger my-5">
+        Errore nel caricamento: {error.message}
+      </p>
+    );
+  }
 
   return (
     <div className="container my-4">
-      <h1 className="mb-4">Voli</h1>
+      <h1 className="mb-4">{title}</h1>
 
-      {/* Usa il filtro senza categoria */}
       <ProductFilterNoCategory />
 
       <div className="row">
@@ -48,8 +65,8 @@ export default function TransportSection() {
             <ProductCard key={product.id} product={product} index={index} />
           ))
         ) : (
-          <p className="text-center text-danger">
-            Nessun prodotto disponibile per la categoria volo.
+          <p aria-live="polite" className="text-center text-danger">
+            Nessun prodotto disponibile per la categoria {title}.
           </p>
         )}
       </div>

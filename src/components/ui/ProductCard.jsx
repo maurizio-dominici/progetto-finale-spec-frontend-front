@@ -1,26 +1,10 @@
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 
-export default function ProductCard({ product, index }) {
+export default React.memo(function ProductCard({ product, index }) {
   const colorClass = ["bg-style-1", "bg-style-2", "bg-style-3"][index % 3];
-
   const { favorites, toggleFavorite } = useContext(GlobalContext);
-
-  // Funzione per renderizzare le stelle (non usata qui perchè vuoi in DetailPages)
-  // Puoi tenerla o rimuoverla tranquillamente
-  function renderRatingStars(rating) {
-    const stars = [];
-    const fullStars = Math.round(rating);
-    for (let i = 1; i <= 5; i++) {
-      if (i <= fullStars) {
-        stars.push(<i key={i} className="bi bi-star-fill text-warning"></i>);
-      } else {
-        stars.push(<i key={i} className="bi bi-star"></i>);
-      }
-    }
-    return stars;
-  }
 
   const isFavorite = favorites.some((p) => p.id === product.id);
 
@@ -71,4 +55,4 @@ export default function ProductCard({ product, index }) {
       </div>
     </div>
   );
-}
+});
