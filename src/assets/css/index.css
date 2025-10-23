@@ -12,12 +12,12 @@ body {
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 1030; /* sopra altri contenuti */
+  z-index: 1030;
   background-color: #ccccca;
 }
 
 .main-content {
-  flex: 1 0 auto; /* occupa lo spazio rimanente */
+  flex: 1 0 auto;
 }
 
 .footer {
@@ -26,7 +26,7 @@ body {
   flex-shrink: 0; /* non si riduce */
 }
 
-/* background color alternati per le card */
+/* background colori alternati per le card */
 .bg-style-1 {
   background: #22c1c3;
   background: linear-gradient(
@@ -71,7 +71,6 @@ body {
 .compare-link:hover,
 .compare-link:focus {
   color: var(--bs-link-hover-color);
-  /* text-decoration: underline; */
   outline: none;
 }
 
@@ -80,7 +79,7 @@ body {
   cursor: not-allowed;
   color: var(--bs-secondary-color);
   text-decoration: none;
-  pointer-events: none; /* disabilita interazioni mouse */
+  pointer-events: none;
 }
 
 /* Preferiti */
@@ -102,8 +101,7 @@ body {
 
 .favorite-card-img {
   height: 180px;
-  /* Puoi aggiungere bg-style-1 se serve: */
-  background-color: var(--bg-style-1-color, #e9ecef); /* es. colore di sfondo */
+  background-color: var(--bg-style-1-color, #e9ecef);
 }
 
 .favorite-card-body {
@@ -173,4 +171,43 @@ body {
   font-weight: bold;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+}
+
+/* Sidebar */
+.sidebar-compare {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: -3px 0 8px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
+  z-index: 1050;
+  overflow-y: auto;
+
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Quando la sidebar è aperta */
+.sidebar-compare.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.sidebar-item {
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-item button {
+  padding: 0.15rem 0.35rem;
+  font-size: 0.9rem;
 }

@@ -1,12 +1,12 @@
+import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { GlobalContext, GlobalProvider } from "./context/GlobalContext";
 import Homepage from "./pages/Homepage";
 import AboutUs from "./pages/AboutUs";
 import DefaultLayout from "./layouts/DefaultLayout";
-import { GlobalContext, GlobalProvider } from "./context/GlobalContext";
 import AllProductsPage from "./pages/AllProductsPage";
-import DetailPages from "./pages/DetailPages"; // correggi import DetailPages
+import DetailPages from "./pages/DetailPages";
 import CompareModal from "./components/CompareModal";
-import { useContext } from "react";
 import FavoritePage from "./pages/FavoritesPage";
 import CategorySection from "./components/category-components/CategorySection";
 

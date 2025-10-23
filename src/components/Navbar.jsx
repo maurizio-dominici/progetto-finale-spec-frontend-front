@@ -1,166 +1,147 @@
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
-import "../assets/css/index.css";
+import SidebarCompare from "./ui/SidebarCompare";
 
 export default function Navbar() {
   const {
     selectedForCompare,
-    isCompareModalOpen,
-    setIsCompareModalOpen,
     favorites,
+    // isCompareSidebarOpen,
+    setIsCompareSidebarOpen,
   } = useContext(GlobalContext);
 
-  const handleCompareClick = () => {
-    if (selectedForCompare.length >= 2) {
-      setIsCompareModalOpen(true);
-    }
-  };
-
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-      <div className="container-fluid">
-        <Link to="/" className="navbar-brand">
-          Web Travel
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <NavLink
-                to="/"
-                end
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/all-products"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Tutti i prodotti
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/hotels"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Hotel
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/tours"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Tour
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/flys"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Voli
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/transport"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Trasporti
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/about-us"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                About Us
-              </NavLink>
-            </li>
-
-            <li className="nav-item position-relative">
-              <NavLink
-                to="/favorites"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Preferiti
-                {favorites.length > 0 && (
-                  <span
-                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                    style={{ fontSize: "0.65rem" }}
-                  >
-                    {favorites.length}
-                    <span className="visually-hidden">elementi preferiti</span>
-                  </span>
-                )}
-              </NavLink>
-            </li>
-          </ul>
-          {/* Link testuale Confronta */}
-          <span
-            role="button"
-            tabIndex={0}
-            onClick={handleCompareClick}
-            className={`nav-link compare-link ${
-              selectedForCompare.length < 2 ? "disabled" : ""
-            }`}
-            title={
-              selectedForCompare.length < 2
-                ? "Seleziona almeno 2 prodotti per confrontare"
-                : "Visualizza prodotti confrontati"
-            }
+    <>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+        <div className="container-fluid">
+          <Link to="/" className="navbar-brand">
+            Web Travel
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-            Confronta
-            {/* Badge con numero */}
-            {selectedForCompare.length > 0 && (
-              <span
-                className="ms-2 badge bg-danger"
-                style={{ fontSize: "0.75em" }}
-              >
-                {selectedForCompare.length}
-              </span>
-            )}
-          </span>
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <NavLink
+                  to="/"
+                  end
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/all-products"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Tutti i prodotti
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/hotels"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Hotel
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/tours"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Tour
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/flys"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Voli
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/transport"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Trasporti
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/about-us"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  About Us
+                </NavLink>
+              </li>
+              <li className="nav-item position-relative">
+                <NavLink
+                  to="/favorites"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Preferiti
+                  {favorites.length > 0 && (
+                    <span
+                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                      style={{ fontSize: "0.65rem" }}
+                    >
+                      {favorites.length}
+                      <span className="visually-hidden">
+                        elementi preferiti
+                      </span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+            </ul>
+
+            <button
+              className="btn btn-outline-primary btn-sm ms-2"
+              onClick={() => setIsCompareSidebarOpen(true)}
+              disabled={selectedForCompare.length === 0}
+              title={
+                selectedForCompare.length === 0
+                  ? "Nessun elemento selezionato"
+                  : "Visualizza elementi selezionati per confronto"
+              }
+            >
+              Elementi da confrontare
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      <SidebarCompare />
+    </>
   );
 }

@@ -1,8 +1,8 @@
 import { useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 import Benefits from "../components/homepage-components/Benefits";
 import HeroSection from "../components/homepage-components/HeroSection";
 import ProductPreview from "../components/homepage-components/ProductPreview";
-import { GlobalContext } from "../context/GlobalContext";
 import ProductFilter from "../components/ProductFilter";
 
 export default function Homepage() {

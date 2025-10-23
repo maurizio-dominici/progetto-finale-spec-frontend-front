@@ -12,8 +12,8 @@ export default function DetailPages() {
     setSelectedForCompare,
     favorites,
     toggleFavorite,
+    setIsCompareModalOpen,
   } = useContext(GlobalContext);
-  const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -93,13 +93,15 @@ export default function DetailPages() {
           {isSelected ? "Rimuovi dal confronto" : "Confronta"}
         </button>
 
-        <button
-          className="btn btn-outline-secondary"
-          disabled={selectedForCompare.length < 2}
-          onClick={() => setIsCompareOpen(true)}
-        >
-          Visualizza confronto ({selectedForCompare.length})
-        </button>
+        {selectedForCompare.length >= 2 && (
+          <button
+            className="btn btn-outline-secondary"
+            disabled={selectedForCompare.length < 2}
+            onClick={() => setIsCompareModalOpen(true)}
+          >
+            Visualizza confronto ({selectedForCompare.length})
+          </button>
+        )}
       </div>
 
       {/* Descrizione e dettagli */}
@@ -141,10 +143,6 @@ export default function DetailPages() {
           </li>
         </ul>
       </div>
-
-      {/* <div className="text-center mt-4">
-        <button className="btn btn-success btn-lg shadow">Prenota ora</button>
-      </div> */}
     </div>
   );
 }

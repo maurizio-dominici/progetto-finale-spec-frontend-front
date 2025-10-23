@@ -13,19 +13,22 @@ export function GlobalProvider({ children }) {
   const [filterByCategory, setFilterByCategory] = useState("");
   const [sortOrder, setSortOrder] = useState("");
 
-  const [selectedForCompare, setSelectedForCompare] = useState([]);
+  const [selectedForCompare, setSelectedForCompare] = useState(() => {
+    const saved = localStorage.getItem("selectedForCompare");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  const [reviews, setReviews] = useState([]);
-  const [detailsCache, setDetailsCache] = useState({}); // cache dettagli recensioni persistente nello stato
-
+  // Stato modale confronto
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+
+  // stato sidebar confronto
+  const [isCompareSidebarOpen, setIsCompareSidebarOpen] = useState(false);
 
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // fetch prodotti
   useEffect(() => {
     fetch(`${VITE_BASE_URL}/products`)
       .then((res) => {
@@ -42,25 +45,12 @@ export function GlobalProvider({ children }) {
       });
   }, []);
 
-  // fetch recensioni base
   useEffect(() => {
-    fetch(`${VITE_BASE_URL}/reviews`)
-      .then((res) => res.json())
-      .then((data) => setReviews(data))
-      .catch((err) => console.error(err));
-  }, []);
-
-  // funzione per ottenere dettagli recensione con caching in stato
-  const getReviewDetails = async (id) => {
-    if (detailsCache[id]) {
-      return detailsCache[id];
-    }
-    const res = await fetch(`${VITE_BASE_URL}/reviews/${id}`);
-    if (!res.ok) throw new Error("Errore fetch dettaglio recensione");
-    const data = await res.json();
-    setDetailsCache((prev) => ({ ...prev, [id]: data.review }));
-    return data;
-  };
+    localStorage.setItem(
+      "selectedForCompare",
+      JSON.stringify(selectedForCompare)
+    );
+  }, [selectedForCompare]);
 
   const filteredProducts = useMemo(() => {
     let filtered = allProducts;
@@ -107,8 +97,6 @@ export function GlobalProvider({ children }) {
     });
   };
 
-  const clearFavorites = () => setFavorites([]);
-
   return (
     <GlobalContext.Provider
       value={{
@@ -129,11 +117,9 @@ export function GlobalProvider({ children }) {
         setIsCompareModalOpen,
         favorites,
         toggleFavorite,
-        clearFavorites,
-        reviews,
-        setReviews,
-        getReviewDetails,
-        detailsCache,
+        // Nuovo stato e setter sidebar
+        isCompareSidebarOpen,
+        setIsCompareSidebarOpen,
       }}
     >
       {children}
