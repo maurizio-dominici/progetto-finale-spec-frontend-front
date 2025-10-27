@@ -55,7 +55,7 @@ export default function CategorySection({ category, title }) {
 
   return (
     <div className="container my-4">
-      <h1 className="mb-4">{title}</h1>
+      <h1 className="mb-4 text-center py-5">{title}</h1>
 
       <ProductFilterNoCategory />
 

@@ -99,7 +99,7 @@ export default function DetailPages() {
             disabled={selectedForCompare.length < 2}
             onClick={() => setIsCompareModalOpen(true)}
           >
-            Visualizza confronto ({selectedForCompare.length})
+            Visualizza confronto
           </button>
         )}
       </div>

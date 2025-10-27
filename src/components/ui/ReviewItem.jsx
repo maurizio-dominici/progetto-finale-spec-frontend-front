@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import "../../assets/css/index.css";
+import Spinner from "./Spinner";
 
 export default function ReviewItem({ id }) {
-  const { getReviewDetails, detailsCache } = useContext(GlobalContext);
+  const { getReviewDetails, detailsCache, loading } = useContext(GlobalContext);
   const [details, setDetails] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
-
     if (detailsCache[id]) {
       setDetails(detailsCache[id]);
     } else {
@@ -20,12 +20,12 @@ export default function ReviewItem({ id }) {
           if (isMounted) setDetails(null);
         });
     }
-
     return () => {
       isMounted = false;
     };
   }, [id, getReviewDetails, detailsCache]);
 
+  if (loading) return <Spinner />;
   if (!details) return <p>Caricamento recensione {id}...</p>;
 
   return (

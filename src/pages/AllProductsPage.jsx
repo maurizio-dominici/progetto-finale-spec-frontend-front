@@ -9,7 +9,7 @@ export default function AllProductsPage() {
 
   return (
     <div className="container py-5">
-      <h2 className="mb-4 text-center">Tutti i prodotti</h2>
+      <h1 className="mb-4 text-center py-3">Tutti i prodotti</h1>
 
       <ProductFilter />
 

@@ -1,6 +1,6 @@
 export default function AboutUs() {
   return (
-    <div className="container my-5">
+    <div className="container my-5 py-3">
       <h1>About Us</h1>
       <p>
         Benvenuti su <strong>Web Travel</strong>, il tuo compagno di viaggio

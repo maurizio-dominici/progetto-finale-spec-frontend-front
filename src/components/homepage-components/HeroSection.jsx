@@ -7,7 +7,7 @@ export default function HeroSection() {
   const { reviews } = useContext(GlobalContext);
 
   return (
-    <section className="hero-section bg-light text-center py-5">
+    <section className="hero-section text-center py-5">
       <div className="container">
         <h1 className="display-4 mb-3">Benvenuto in Web Travel</h1>
         <p className="lead mb-4">

@@ -71,12 +71,6 @@ export default function ReviewsList({ reviews }) {
       className="reviews-list-container"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{
-        overflowX: "hidden",
-        whiteSpace: "nowrap",
-        padding: "1rem 0",
-        cursor: "pointer",
-      }}
     >
       {reviews.map((rev) => (
         <ReviewItem key={rev.id} id={rev.id} />
